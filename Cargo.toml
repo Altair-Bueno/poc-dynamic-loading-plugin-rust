@@ -1,0 +1,13 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.dependencies]
+libloading = "0.8.3"
+app-core = { path = "crates/app-core", version = "*" }
+
+[profile.release]
+lto = "fat"
+strip = true
+opt-level = "z"
+debug = "none"
