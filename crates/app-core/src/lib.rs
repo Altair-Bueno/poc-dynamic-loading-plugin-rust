@@ -13,8 +13,11 @@ impl Display for Error {
 
 impl std::error::Error for Error {}
 
+#[derive(Debug)]
+pub struct Context {
+    pub invocations: usize,
+}
+
 pub trait Plugin {
-    fn init(&mut self) -> Result<(), Error>;
-    fn update(&mut self) -> Result<(), Error>;
-    fn deinit(&mut self) -> Result<(), Error>;
+    fn hook(&mut self, context: &mut Context) -> Result<(), Error>;
 }
