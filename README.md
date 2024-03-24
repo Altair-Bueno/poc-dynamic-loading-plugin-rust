@@ -42,7 +42,7 @@ DYLD_LIBRARY_PATH="$(rustc --print sysroot)/lib/rustlib/x86_64-apple-darwin/lib:
 And we can list the exact dependencies of our project loads by running the following command:
 
 ```sh
-dyld_info -dependents target/release/{app,lib{hello_world,app_core}.dylib}
+dyld_info -dependents target/release/{app,lib{hello-world,app_core}.dylib}
 ```
 
 # Usefull links
