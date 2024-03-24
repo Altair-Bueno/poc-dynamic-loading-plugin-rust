@@ -11,7 +11,7 @@ This POC showcases how a Rust application can (re)load plugins by using [Dynamic
 
 ### Executing the example
 
-1. Compile all the plugins and the application. Because the application does not depend on any plugins, this step must be done before running the aplication.
+1. Compile all the plugins and the application. Because the application does not depend on any plugins, they are not automatically built. This step must be done before running the aplication for the POC to be usefull.
 
 ```sh
 cargo build --release
