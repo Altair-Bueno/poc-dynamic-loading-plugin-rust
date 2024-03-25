@@ -7,19 +7,23 @@ This POC showcases how a Rust application can (re)load plugins by using [Dynamic
 ### Requirements
 
 - Rust
-- An operating system with support for some sort of DLL support.
+- An operating system with support for DLL (e.g. macOS, Windows, Linux, ...)
 
 ### Executing the example
 
-1. Compile all the plugins and the application. Because the application does not depend on any plugins, this step must be done before running the aplication.
+1. Compile all the plugins and the application. Because the application does not depend on any plugins directly, we need to manually build those.
 
 ```sh
 cargo build --release
 ```
 
-2. Run the aplication. We are using `cargo` to simplify the execution, but it can be done without it. See [packaging and distribution](#packaging-and-distribution) for more information. Change the extension to match your operating system.
+2. Run the aplication. We are using `cargo` to simplify the execution, but it can be done without it. See [packaging and distribution](#packaging-and-distribution) for more information.
 
 ```sh
+# Change the extension to match your operating system
+# macOS: .dylib
+# Windows: .dll
+# Linux: .so
 cargo run --release -- libhello_world.dylib
 ```
 
@@ -39,7 +43,7 @@ For example, on a macOS x86_64 system, we can run the application without `cargo
 DYLD_LIBRARY_PATH="$(rustc --print sysroot)/lib/rustlib/x86_64-apple-darwin/lib:$PWD/target/release" target/release/app libhello_world.dylib
 ```
 
-And we can list the exact dependencies of our project loads by running the following command:
+And we can list the exact dependencies of our project requires by running the following command:
 
 ```sh
 dyld_info -dependents target/release/{app,lib{hello-world,app_core}.dylib}
@@ -47,7 +51,9 @@ dyld_info -dependents target/release/{app,lib{hello-world,app_core}.dylib}
 
 # Usefull links
 
-- https://robert.kra.hn/posts/2022-09-09-speeding-up-incremental-rust-compilation-with-dylibs/
-- https://www.reddit.com/r/rust/comments/1bjae38/media_fyrox_now_supports_hot_reloading_you_can/
-  - https://github.com/FyroxEngine/Fyrox/blob/e7493ccbf39a12ce14eca08f0f3438b32159697a/fyrox-impl/src/engine/mod.rs#L2452
-  - https://github.com/FyroxEngine/Fyrox/blob/e7493ccbf39a12ce14eca08f0f3438b32159697a/fyrox-impl/src/plugin/dynamic.rs
+- Speeding up incremental Rust compilation with dylibs: https://robert.kra.hn/posts/2022-09-09-speeding-up-incremental-rust-compilation-with-dylibs/
+- Fyrox hot reload demo: https://www.reddit.com/r/rust/comments/1bjae38/media_fyrox_now_supports_hot_reloading_you_can/
+  - Fyrox plugin system https://github.com/FyroxEngine/Fyrox/blob/e7493ccbf39a12ce14eca08f0f3438b32159697a/fyrox-impl/src/engine/mod.rs#L2452
+  - Fyrox dynamic loader: https://github.com/FyroxEngine/Fyrox/blob/e7493ccbf39a12ce14eca08f0f3438b32159697a/fyrox-impl/src/plugin/dynamic.rs
+- Reddit discussion: https://www.reddit.com/r/rust/comments/1bmqhui/plugins_systems_in_rust_using_dynamic_link/
+- More usefull links: https://www.reddit.com/r/rust/comments/1bmqhui/comment/kwgtq9m/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
