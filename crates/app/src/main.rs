@@ -9,8 +9,9 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     loop {
         // Be careful about explicitly calling Library::close, as it might deinitialize
-        // libstd funcions such as `Box::drop`. Drop order is important. and should be
-        // taken into consideration.
+        // libstd funcions such as `Box::drop`. Drop order is important and should be
+        // taken into consideration. Also, be mindful of `'static` references, as the
+        // invariant is no longer uphold.
         let plugin_lib = unsafe { libloading::Library::new(&plugin_name) }?;
         let plugin_loader: libloading::Symbol<fn() -> Box<dyn Plugin>> =
             unsafe { plugin_lib.get(b"plugin") }?;
